@@ -1,0 +1,67 @@
+{
+  "name": "@mann-conomy/tf-schema",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "fix": "eslint -c eslint.config.js . --fix",
+    "test": "jest --setupFiles dotenv/config",
+    "lint": "eslint -c eslint.config.js .",
+    "prepublishOnly": "npm run build",
+    "build": "npm run clean && tsc",
+    "coverage": "jest --coverage",
+    "clean": "rimraf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mann-Conomy/tf-schema.git"
+  },
+  "keywords": [
+    "nodejs",
+    "steam",
+    "typescript",
+    "schema",
+    "items",
+    "web-api",
+    "tf2",
+    "mann-conomy"
+  ],
+  "author": "The Mann-Conomy Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mann-Conomy/tf-schema/issues"
+  },
+  "homepage": "https://github.com/Mann-Conomy/tf-schema#readme",
+  "dependencies": {
+    "@mann-conomy/tf-parser": "^2.0.0",
+    "@mann-conomy/tf-sku": "^1.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "@jest/globals": "^29.7.0",
+    "@mann-conomy/tsconfig": "^1.1.0",
+    "@mann-conomy/typescript-eslint-config": "^1.0.0",
+    "@types/dotenv": "^8.2.3",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.14.1",
+    "dotenv": "^16.5.0",
+    "eslint": "^9.24.0",
+    "jest": "^29.7.0",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^29.3.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.30.1"
+  },
+  "engines": {
+    "node": ">=6.17.1"
+  },
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  }
+}

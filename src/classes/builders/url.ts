@@ -13,7 +13,7 @@ export default class UrlBuilder {
     private readonly searchParams: URLSearchParams;
     private readonly seperator = UrlSeperators.ForwardSlash;
 
-    constructor(baseUrl: string, options: Partial<UrlBuilderOptions> = {}) {
+    public constructor(baseUrl: string, options: Partial<UrlBuilderOptions> = {}) {
         const url = UrlBuilder.toPath(this.seperator, options.pathValues);
 
         this.url = new URL(url, baseUrl);

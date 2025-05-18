@@ -1,5 +1,5 @@
-import SteamClient from "./classes/clients/steam";
+import SchemaClient from "./classes/clients/schema";
 
 export {
-    SteamClient
+    SchemaClient
 };

@@ -1,3 +1,3 @@
-import SteamClient from "./clients/steam";
+import SchemaClient from "./clients/schema";
 
-export default SteamClient;
+export default SchemaClient;

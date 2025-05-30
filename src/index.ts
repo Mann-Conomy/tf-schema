@@ -1,5 +1,7 @@
-import SchemaClient from "./classes/clients/schema";
+import { ItemSchema, SchemaClient, SchemaManager } from "./classes/index";
 
 export {
-    SchemaClient
+    ItemSchema,
+    SchemaClient,
+    SchemaManager
 };

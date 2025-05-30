@@ -37,12 +37,12 @@
   },
   "homepage": "https://github.com/Mann-Conomy/tf-schema#readme",
   "dependencies": {
-    "@mann-conomy/tf-parser": "^2.0.0",
     "@mann-conomy/tf-sku": "^1.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",
     "@jest/globals": "^29.7.0",
+    "@mann-conomy/tf-parser": "^2.0.2",
     "@mann-conomy/tsconfig": "^1.1.0",
     "@mann-conomy/typescript-eslint-config": "^1.0.0",
     "@types/dotenv": "^8.2.3",

@@ -66,10 +66,13 @@ export interface AttachedParticleAttribute {
     attach_to_rootbone: boolean;
 }
 
-export interface GetSchemaOverviewResult {
+export interface GetSchemaResult {
     status: number;
-    item_sets: ItemSet[];
     items_game_url: string;
+}
+
+export interface SchemaOverview {
+    item_sets: ItemSet[];
     qualities: ItemQualities;
     item_levels: ItemLevels[];
     attributes: ItemAttribute[];
@@ -80,15 +83,15 @@ export interface GetSchemaOverviewResult {
     attribute_controlled_attached_particles: AttachedParticleAttribute[];
 }
 
+export type GetSchemaOverviewResult = SchemaOverview & GetSchemaResult;
+
 export interface GetSchemaOverviewResponse {
     result: GetSchemaOverviewResult;
 }
 
-export interface GetSchemaItemsResult {
+export interface GetSchemaItemsResult extends GetSchemaResult {
     next?: number;
-    status: number;
     items: SchemaItem[];
-    items_game_url: string;
 }
 
 export interface GetSchemaItemsResponse {

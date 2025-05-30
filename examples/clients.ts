@@ -1,10 +1,11 @@
-import SteamClient from "../src/classes";
+import SchemaClient from "../src/classes/client";
 
-const client = new SteamClient(process.env.STEAM_WEB_API_KEY!);
+const client = new SchemaClient(process.env.STEAM_WEB_API_KEY!);
 
 (async() => {
     try {
-        const result = await client.getSchemaOverview();
+        const result = await client.getItemSchema();
+        await result.export("./test/static", "schema");
         console.log(result);
     } catch (error) {
         if (error instanceof Error) {

@@ -1,3 +1,9 @@
-import SchemaClient from "./clients/schema";
+import ItemSchema from "./schema";
+import SchemaClient from "./client";
+import SchemaManager from "./manager";
 
-export default SchemaClient;
+export {
+    ItemSchema,
+    SchemaClient,
+    SchemaManager
+};

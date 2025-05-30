@@ -1,4 +1,12 @@
-export interface ItemCapabilities {
+import type { SchemaOverview } from "./steam";
+import type { ClientSchema } from "@mann-conomy/tf-parser";
+
+export interface SchemaOptions {
+    version: string;
+    language: string;
+}
+
+export interface SchemaItemCapabilities {
     nameable: boolean;
     can_consume: boolean;
     can_strangify: boolean;
@@ -10,7 +18,7 @@ export interface ItemCapabilities {
     can_killstreakify: boolean;
 }
 
-export interface ItemAttribute {
+export interface SchemaItemAttribute {
     name: string;
     value: number;
     class: string;
@@ -33,6 +41,17 @@ export interface SchemaItem {
     image_url_large: string;
     image_inventory: string;
     item_description: string;
-    attributes: ItemAttribute[];
-    capabilities: ItemCapabilities;
+    attributes: SchemaItemAttribute[];
+    capabilities: SchemaItemCapabilities;
+}
+
+export interface SchemaProperties {
+    items: SchemaItem[];
+    client: ClientSchema;
+    overview: SchemaOverview;
+}
+
+export interface SchemaResources {
+    options: SchemaOptions;
+    properties: SchemaProperties;
 }

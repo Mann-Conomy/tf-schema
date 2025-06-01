@@ -1,7 +1,3 @@
-export enum UrlSeperators {
-    ForwardSlash = "/",
-}
-
 export enum StringSeperators {
     Punctuation = ".",
     ForwardSlash = "/"

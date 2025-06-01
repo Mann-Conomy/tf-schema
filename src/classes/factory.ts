@@ -1,14 +1,15 @@
 import { HttpStatusCodes } from "../resources/emums";
+import { type ErrorCause, SteamErrorBuilder } from "./builders/error";
 
-export interface ErrorCause {
-    cause: {
-        body: string;
-        status: number;
-        statusText: string;
-    }
-}
-
+/**
+ * A factory class to create error causes based on HTTP response codes from the Steam Web API.
+ */
 export class ErrorCauseFactory {
+    /**
+     * Creates a cause object based on the HTTP response status from a Steam Web API call.
+     * @param response The HTTP response received from the Steam API.
+     * @returns A Promise that resolves to a cause object.
+     */
     public static async fromResponse(response: Response): Promise<ErrorCause> {
         const body = await response.text();
 
@@ -22,36 +23,13 @@ export class ErrorCauseFactory {
     }
 }
 
-export class SteamErrorBuilder {
-    private cause: ErrorCause;
-
-    public constructor(cause: ErrorCause) {
-        this.cause = cause;
-    }
-
-    public build(message: string): SteamError {
-        return new SteamError(message, this.cause);
-    }
-
-    public static async fromResponse(response: Response): Promise<SteamErrorBuilder> {
-        const cause = await ErrorCauseFactory.fromResponse(response);
-        return new SteamErrorBuilder(cause);
-    }
-}
-
-export class SteamError extends Error {
-    public constructor(message: string, cause: ErrorCause) {
-        super(message, cause);
-    }
-}
-
 /**
  * A factory class to create errors based on HTTP response codes from the Steam Web API.
  */
 export default class SteamErrorFactory {
     /**
      * Creates an Error based on the HTTP response status from a Steam Web API call.
-     * @param response - The HTTP response received from the Steam API.
+     * @param response The HTTP response received from the Steam API.
      * @returns A Promise that resolves to an Error with a message and or cause.
      */
     public static async fromResponse(response: Response) {

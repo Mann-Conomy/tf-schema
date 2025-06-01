@@ -1,6 +1,6 @@
 
 import type { ClientSchema } from "@mann-conomy/tf-parser";
-import { getObjectByIndex, loadSchemaFile, writeSchemaFile } from "../lib/utils";
+import { exportFile, getObjectByIndex, importFile, } from "../lib/utils";
 import type { SchemaItem, SchemaOptions, SchemaProperties, SchemaResources } from "../types/schema";
 import type { AttachedParticleAttribute, ItemAttribute, ItemQualities, ItemQualityNames, SchemaOverview } from "../types/steam";
 
@@ -127,6 +127,10 @@ export default class ItemSchema {
         };
     }
 
+    /**
+     * 
+     * @returns 
+     */
     public toJSON(): SchemaResources {
         return {
             properties: {
@@ -144,13 +148,19 @@ export default class ItemSchema {
      * @param name 
      * @returns The path to the exported Schema file.
      */
-    public async export(directory: string, filename: string): Promise<string> {
+    public async export(directory: string, filename: string, encoding: BufferEncoding = "utf8"): Promise<string> {
         const schema = this.stringify();
-        return writeSchemaFile(directory, filename, schema);
+        return exportFile(directory, filename, schema, encoding);
     }
 
+    /**
+     * 
+     * @param path 
+     * @param encoding 
+     * @returns 
+     */
     public static async import(path: string, encoding: BufferEncoding = "utf8"): Promise<ItemSchema> {
-        const schema = await loadSchemaFile(path, encoding);
+        const schema = await importFile<SchemaResources>(path, encoding);
         return new ItemSchema(schema.properties, schema.options);
     }
 }

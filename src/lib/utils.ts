@@ -1,4 +1,4 @@
-import type { SchemaItem, SchemaResources } from "../types/schema";
+import type { SchemaItem } from "../types/schema";
 import SteamErrorFactory from "../classes/factory";
 import type UrlBuilder from "../classes/builders/url";
 import { SteamConstants } from "../resources/constants";
@@ -82,13 +82,13 @@ export function getFilePath(directory: string, filename: string) {
     return join(directory, name);
 }
 
-export async function writeSchemaFile(directory: string, filename: string, schema: string) {
+export async function exportFile(directory: string, filename: string, data: string, encoding: BufferEncoding): Promise<string> {
     const path = getFilePath(directory, filename);
-    await writeFile(path, schema);
+    await writeFile(path, data, encoding);
     return path;
 }
 
-export async function loadSchemaFile(path: string, encoding: BufferEncoding): Promise<SchemaResources> {
+export async function importFile<T>(path: string, encoding: BufferEncoding): Promise<T> {
     const file = await readFile(path, encoding);
-    return JSON.parse(file) as SchemaResources;
+    return JSON.parse(file) as T;
 }

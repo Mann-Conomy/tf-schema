@@ -1,8 +1,8 @@
 import type ItemSchema from "./schema";
 import UrlBuilder from "./builders/url";
 import SteamErrorFactory from "./factory";
-import { ItemSchemaMapper } from "../lib/mappers";
 import { getSchemaItems } from "../lib/utils";
+import { ItemSchemaMapper } from "../lib/mappers";
 import type { SchemaOptions } from "../types/schema";
 import { SteamConstants } from "../resources/constants";
 import { type ClientSchema, SchemaParser } from "@mann-conomy/tf-parser";
@@ -80,8 +80,7 @@ export default class SchemaClient {
     public async getItemSchema(): Promise<ItemSchema> {
         const [result, overview] = await Promise.all([this.getSchemaItems(), this.getSchemaOverview()]);
         const client = await this.getClientSchema(result.items_game_url || overview.items_game_url);
-        const options = this.getSchemaOptions();
-        return ItemSchemaMapper.map(client, result.items, overview, options);
+        return ItemSchemaMapper.map(client, result.items, overview, this.getSchemaOptions());
     }
 
     /**
@@ -100,6 +99,10 @@ export default class SchemaClient {
         return this.language;
     }
 
+    /**
+     * 
+     * @returns 
+     */
     public getSchemaOptions(): SchemaOptions {
         return {
             version: this.getVersion(),

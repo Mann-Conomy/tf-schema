@@ -1,4 +1,4 @@
-import { UrlSeperators } from "../../resources/emums";
+import { StringSeperators } from "../../resources/emums";
 
 export type PathValues = string | string[];
 export type SearchParams = Record<string, string> | string | URLSearchParams;
@@ -19,7 +19,7 @@ export interface UrlBuilderOptions {
 export default class UrlBuilder {
     private readonly url: URL;
     private readonly searchParams: URLSearchParams;
-    private readonly seperator = UrlSeperators.ForwardSlash;
+    private readonly seperator = StringSeperators.ForwardSlash;
 
     /**
      * Constructs a new instance of `UrlBuilder`.

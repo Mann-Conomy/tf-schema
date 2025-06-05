@@ -30,7 +30,7 @@ export default class SteamErrorFactory {
     /**
      * Creates an Error based on the HTTP response status from a Steam Web API call.
      * @param response The HTTP response received from the Steam API.
-     * @returns A Promise that resolves to an Error with a message and or cause.
+     * @returns A Promise that resolves to an Error with a message and cause.
      */
     public static async fromResponse(response: Response) {
         const builder = await SteamErrorBuilder.fromResponse(response);

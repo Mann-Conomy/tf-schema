@@ -9,7 +9,7 @@ import { type ClientSchema, SchemaParser } from "@mann-conomy/tf-parser";
 import type { GetSchemaItemsResult, GetSchemaOverviewResponse, GetSchemaOverviewResult } from "../types/steam";
 
 /**
- * 
+ * A JavaScript client for interacting with the Steam Web API to fetch and parse TF2 item schema data.
  */
 export default class SchemaClient {
     private readonly version: string;
@@ -18,7 +18,7 @@ export default class SchemaClient {
     /**
      * Creates a new instance of SchemaClient.
      * @param apiKey A Steam Web API key.
-     * @param options Optional parameters for schema version and language.
+     * @param options Optional parameters for the schema version and language.
      */
     public constructor(private apiKey: string, options: Partial<SchemaOptions> = {}) {
         this.version = options.version || SteamConstants.DefaultVersion;
@@ -26,8 +26,9 @@ export default class SchemaClient {
     }
 
     /**
-     * 
-     * @returns 
+     * Fetches an overview of the TF2 item schema from the Steam Web API.
+     * @returns A promise that resolves to a schema overview result object.
+     * @throws An error if the request fails or the response status is not OK.
      */
     public async getSchemaOverview(): Promise<GetSchemaOverviewResult> {
         const builder = new UrlBuilder(SteamConstants.SteamAPIBaseUrl, {
@@ -46,8 +47,9 @@ export default class SchemaClient {
     }
 
     /**
-     * 
-     * @returns 
+     * Fetches the list of TF2 items defined in the schema from the Steam Web API.
+     * @returns A promise that resolves to the schema items result.
+     * @throws An error if the request fails or the response status is not OK.
      */
     public async getSchemaItems(): Promise<GetSchemaItemsResult> {
         const builder = new UrlBuilder(SteamConstants.SteamAPIBaseUrl, {
@@ -59,9 +61,10 @@ export default class SchemaClient {
     }
 
     /**
-     * 
-     * @param url The 
-     * @returns 
+     * Fetches and parses the TF2 game client schema from a given URL.
+     * @param url The URL or request object pointing to the client schema file. 
+     * @returns A promise that resolves to a parsed client schema object.
+     * @throws An error if the request fails or the response status is not OK.
      */
     public async getClientSchema(url: string | URL | globalThis.Request): Promise<ClientSchema> {
         const response = await fetch(url);
@@ -74,34 +77,35 @@ export default class SchemaClient {
     }
 
     /**
-     * 
-     * @returns 
+     * Retrieves the full TF2 item schema by combining schema items, overview, and client schema data.
+     * @returns A promise that resolves to a fully constructed item schema object.
+     * @throws An error if any of the underlying schema requests fail.
      */
     public async getItemSchema(): Promise<ItemSchema> {
-        const [result, overview] = await Promise.all([this.getSchemaItems(), this.getSchemaOverview()]);
-        const client = await this.getClientSchema(result.items_game_url || overview.items_game_url);
-        return ItemSchemaMapper.map(client, result.items, overview, this.getSchemaOptions());
+        const [items, overview] = await Promise.all([this.getSchemaItems(), this.getSchemaOverview()]);
+        const client = await this.getClientSchema(items.items_game_url || overview.items_game_url);
+        return ItemSchemaMapper.map(client, items, overview, this.getSchemaOptions());
     }
 
     /**
-     * Gets the Schema version used by the client.
-     * @returns The Schema version.
+     * Gets the schema version used by the client.
+     * @returns The schema version.
      */
     public getVersion() {
         return this.version;
     }
 
     /**
-     * Gets the language code used by the client.
-     * @returns The ISO 639 language code.
+     * Gets the language name or code used by the client.
+     * @returns The language name or ISO 639 code.
      */
     public getLanguage() {
         return this.language;
     }
 
     /**
-     * 
-     * @returns 
+     * Constructs and returns the schema options.
+     * @returns An object containing the schema options.
      */
     public getSchemaOptions(): SchemaOptions {
         return {

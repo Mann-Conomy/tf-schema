@@ -104,8 +104,8 @@ export default class SchemaClient {
     }
 
     /**
-     * Constructs and returns the schema options.
-     * @returns An object containing the schema options.
+     * Gets schema options such as version and language.
+     * @returns The current schema options object.
      */
     public getSchemaOptions(): SchemaOptions {
         return {

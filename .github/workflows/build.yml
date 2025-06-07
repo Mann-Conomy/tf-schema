@@ -20,5 +20,3 @@ jobs:
     - run: npm ci
     - run: npm run lint
     - run: npm run build
-      env:
-        STEAM_WEB_API_KEY: ${{ secrets.STEAM_WEB_API_KEY }}

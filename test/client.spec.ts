@@ -1,4 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
+import { SteamError } from "../src/classes/builders/error";
 import { ItemSchema, SchemaClient } from "../src/classes/index";
 
 const API_KEY = process.env.STEAM_WEB_API_KEY!;
@@ -27,6 +28,14 @@ describe("SchemaClient", () => {
             expect(result.status).toBe(1);
             expect(() => new URL(result.items_game_url)).not.toThrow();
         });
+
+        test("getSchemaOverview should throw when the API key is invalid", () => {
+            // Arrange
+            const client = new SchemaClient("2USADFLSDLIFLSDEF8F3QWLKFSDEFSD");
+
+            // Assert
+            expect(async() => await client.getSchemaOverview()).rejects.toThrow(SteamError);
+        });
     });
  
     describe("getSchemaItems", () => {
@@ -42,6 +51,14 @@ describe("SchemaClient", () => {
             expect(result.items.length).not.toBe(0);
             expect(() => new URL(result.items_game_url)).not.toThrow();
         });
+
+        test("getSchemaItems should throw when the API key is invalid", () => {
+            // Arrange
+            const client = new SchemaClient("SHDFJSODIUFJH4892WIUOUJEWOE4SFR");
+
+            // Assert
+            expect(async() => await client.getSchemaItems()).rejects.toThrow(SteamError);
+        });
     });
 
     describe("getClientSchema", () => {
@@ -56,6 +73,15 @@ describe("SchemaClient", () => {
             // Assert
             expect(schema.items_game.qualities.vintage?.value).toBe(3);
             expect(schema.items_game.qualities["strange"]?.value).toBe(11);
+        });
+        
+        test("getClientSchema should throw when the URL is invalid", () => {
+            // Arrange
+            const client = new SchemaClient("JDFG89WJGFSODF8QWE9WSOF8SEWR9OFG");
+            const url = new URL("http://media.steampowered.com/apps/440/scripts/items/items_game.381273f3bbc5846888vved1b11e4057297af8852.txt");
+
+            // Assert
+            expect(async() => await client.getClientSchema(url)).rejects.toThrow(SteamError);
         });
     });
 

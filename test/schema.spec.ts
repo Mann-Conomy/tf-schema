@@ -1,3 +1,4 @@
+import { join } from "path";
 import { SchemaClient } from "../src/classes";
 import ItemSchema from "../src/classes/schema";
 import { describe, expect, test } from "@jest/globals";
@@ -232,9 +233,10 @@ describe("ItemSchema", () => {
     test("export should create a file at the specified path", async() => {
         // Act
         const path = await schema.export("test/static", "schema");
+        const expected = join("test", "static", "schema.json");
 
         // Assert
-        expect(path).toBe("test\\static\\schema.json");
+        expect(path).toBe(expected);
     });
 
     test("import should return a new ItemSchema instance", async() => {

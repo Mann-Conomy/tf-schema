@@ -1,7 +1,3 @@
-import { ItemSchema, SchemaClient, SchemaManager } from "./classes/index";
-
-export {
-    ItemSchema,
-    SchemaClient,
-    SchemaManager
-};
+export * from "./classes/index";
+export type * from "./types/steam";
+export type * from "./types/schema";

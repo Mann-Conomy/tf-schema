@@ -1,11 +1,11 @@
 
 import type { ClientSchema } from "@mann-conomy/tf-parser";
 import { exportFile, getObjectByIndex, importFile, } from "../lib/utils";
-import type { SchemaContents, SchemaItem, SchemaOptions, SchemaResources } from "../types/schema";
+import type { SchemaContents, SchemaItem, SchemaOptions, SchemaComponents } from "../types/schema";
 import type { AttachedParticleAttribute, ItemAttribute, ItemQualities, ItemQualityNames, SchemaOverview } from "../types/steam";
 
 /**
- * Represents the full parsed TF2 item schema, including definitions, attributes and visual effects.
+ * Represents the full parsed TF2 item schema, including definitions, attributes and particle effects.
  */
 export default class ItemSchema {
     private readonly items: SchemaItem[];
@@ -20,7 +20,7 @@ export default class ItemSchema {
      * @param schema The parsed schema data including items, client schema and overview.
      * @param options The schema options such as version and language.
      */
-    public constructor(schema: SchemaResources, options: SchemaOptions) {
+    public constructor(schema: SchemaComponents, options: SchemaOptions) {
         this.items = schema.items;
         this.client = schema.client;
         this.overview = schema.overview;

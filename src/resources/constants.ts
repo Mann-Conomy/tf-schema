@@ -1,3 +1,6 @@
+/**
+ * Common Steam Web API constants used by the SchemaClient.
+ */
 export enum SteamConstants {
     DefaultVersion = "v0001",
     DefaultLanguage = "en",

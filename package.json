@@ -9,11 +9,11 @@
   ],
   "scripts": {
     "fix": "eslint -c eslint.config.js . --fix",
-    "test": "jest --setupFiles dotenv/config",
     "lint": "eslint -c eslint.config.js .",
     "prepublishOnly": "npm run build",
     "build": "npm run clean && tsc",
     "coverage": "jest --coverage",
+    "test": "jest --setupFiles",
     "clean": "rimraf dist"
   },
   "repository": {

@@ -83,7 +83,7 @@ export default class SchemaClient {
      */
     public async getItemSchema(): Promise<ItemSchema> {
         const [items, overview] = await Promise.all([this.getSchemaItems(), this.getSchemaOverview()]);
-        const client = await this.getClientSchema(items.items_game_url || overview.items_game_url);
+        const client = await this.getClientSchema(overview.items_game_url);
         return ItemSchemaMapper.map(client, items, overview, this.getSchemaOptions());
     }
 

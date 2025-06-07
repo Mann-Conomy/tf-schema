@@ -1,9 +1,9 @@
 import { extname, join } from "path";
-import { readFile, writeFile } from "fs/promises";
 import type { SchemaItem } from "../types/schema";
 import SteamErrorFactory from "../classes/factory";
 import type UrlBuilder from "../classes/builders/url";
 import { SteamConstants } from "../resources/constants";
+import { readFile, writeFile, mkdir } from "fs/promises";
 import { FileExtension, StringSeperators } from "../resources/emums";
 import type { GetSchemaItemsResponse, GetSchemaItemsResult } from "../types/steam";
 
@@ -108,7 +108,7 @@ export function getObjectByIndex<T>(items: T[], defindex: number, getId: (item: 
  * @returns A filename with a `.json` extension.
  */
 export function getFilename(name: string) {
-    return extname(name) === FileExtension.JSON ? name : name.concat(StringSeperators.Punctuation, FileExtension.JSON);
+    return extname(name) === StringSeperators.Punctuation.concat(FileExtension.JSON) ? name : name.concat(StringSeperators.Punctuation, FileExtension.JSON);
 }
 
 /**
@@ -132,6 +132,7 @@ export function getFilePath(directory: string, filename: string) {
  */
 export async function exportFile(directory: string, filename: string, data: string, encoding: BufferEncoding): Promise<string> {
     const path = getFilePath(directory, filename);
+    await mkdir(directory, { recursive: true });
     await writeFile(path, data, encoding);
     return path;
 }

@@ -36,8 +36,7 @@ export default class ItemSchema {
      * @returns The schema item if found, otherwise null.
      */
     public getItemByName(name: string, localized = false): SchemaItem | null {
-        const items = this.getSchemaItems();
-        for (const item of items) {
+        for (const item of this.items) {
             if ((localized ? item.item_name : item.name).toLowerCase() === name.toLowerCase()) {
                 return item;
             }
@@ -52,8 +51,7 @@ export default class ItemSchema {
      * @returns The schema item if found, otherwise null.
      */
     public getItemByDefindex(defindex: number): SchemaItem | null {
-        const items = this.getSchemaItems();
-        return getObjectByIndex(items, defindex, item => item.defindex);
+        return getObjectByIndex(this.items, defindex, item => item.defindex);
     }
 
     /**
@@ -62,10 +60,9 @@ export default class ItemSchema {
      * @returns The quality name or null if not found.
      */
     public getQualityNameById(id: number): string | null {
-        const qualities = this.getItemQualities();
-        for (const [name, quality] of Object.entries(qualities)) {
-            if (quality === id) {
-                return this.overview.qualityNames[name] ?? null;
+        for (const [name, quality] of Object.entries(this.overview.qualities)) {
+            if (quality === id && this.overview.qualityNames[name]) {
+                return this.overview.qualityNames[name];
             }
         }
 
@@ -78,10 +75,9 @@ export default class ItemSchema {
      * @returns The quality ID or null if not found.
      */
     public getQualityIdByName(name: string): number | null {
-        const names = this.getItemQualityNames();
-        for (const [id, quality] of Object.entries(names)) {
-            if (name.toLowerCase() === quality.toLowerCase()) {
-                return this.overview.qualities[id] ?? null;
+        for (const [id, quality] of Object.entries(this.overview.qualityNames)) {
+            if (name.toLowerCase() === quality.toLowerCase() && this.overview.qualities[id]) {
+                return this.overview.qualities[id];
             }
         }
 
@@ -94,8 +90,7 @@ export default class ItemSchema {
      * @returns The matching attribute object or null if not found.
      */
     public getAttributeByDefindex(defindex: number) {
-        const attributes = this.getItemAttributes();
-        return getObjectByIndex(attributes, defindex, attribute => attribute.defindex);
+        return getObjectByIndex(this.overview.attributes, defindex, attribute => attribute.defindex);
     }
 
     /**
@@ -104,8 +99,7 @@ export default class ItemSchema {
      * @returns The name of the effect or null if not found.
      */
     public getEffectNameById(id: number): string | null {
-        const effects = this.getParticleEffects();
-        const effect = getObjectByIndex(effects, id, particle => particle.id);
+        const effect = getObjectByIndex(this.overview.attribute_controlled_attached_particles, id, particle => particle.id);
         return (effect != null) ? effect.name : null;
     }
 
@@ -115,8 +109,7 @@ export default class ItemSchema {
      * @returns The effect ID or null if not found.
      */
     public getEffectIdByName(name: string): number | null {
-        const effects = this.getParticleEffects();
-        for (const effect of effects) {
+        for (const effect of this.overview.attribute_controlled_attached_particles) {
             if (effect.name.toLowerCase() === name.toLowerCase()) {
                 return effect.id;
             }
@@ -167,7 +160,7 @@ export default class ItemSchema {
 
     /**
      * Gets the internal mapping of quality names to their IDs.
-     * @returns An object mapping of quality names to their numeric IDs.
+     * @returns An object of quality names mapped to their numeric IDs.
      */
     public getItemQualities(): ItemQualities {
         return this.overview.qualities;
@@ -175,7 +168,7 @@ export default class ItemSchema {
 
     /**
      * Gets the internal mapping of quality IDs to their localized names.
-     * @returns An object mapping of quality IDs to their display names.
+     * @returns An object of quality IDs mapped to their display names.
      */
     public getItemQualityNames(): ItemQualityNames {
         return this.overview.qualityNames;
@@ -212,8 +205,8 @@ export default class ItemSchema {
      */
     public getSchemaOptions(): SchemaOptions {
         return {
-            version: this.getVersion(),
-            language: this.getLanguage()
+            version: this.version,
+            language: this.language
         };
     }
 
@@ -224,11 +217,14 @@ export default class ItemSchema {
     public toJSON(): SchemaContents {
         return {
             schema: {
-                items: this.getSchemaItems(),
-                client: this.getClientSchema(),
-                overview: this.getSchemaOverview()
+                items: this.items,
+                client: this.client,
+                overview: this.overview
             },
-            options: this.getSchemaOptions()
+            options: {
+                version: this.version,
+                language: this.language
+            }
         };
     }
     
